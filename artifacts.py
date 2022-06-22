@@ -31,7 +31,6 @@ async def load_dvc(uri: str):
 
 # Image classification
 
-
 async def MLCommonsResNet50(*args: Any, **kwargs: Any) -> MLCommonsResNet50Model:
     return MLCommonsResNet50Model(
         name="MLCommonsResNet50",
@@ -98,11 +97,15 @@ async def MLCommonsSSDMobileNet(*args: Any, **kwargs: Any) -> MLCommonsSSDSmallM
         **kwargs,
     )
 
+async def load_file(uri: str):
+    with open(uri, 'rb') as f:
+        return f.read()
 
 async def MLCommonsSSDResNet34(*args: Any, **kwargs: Any) -> MLCommonsSSDLargeModel:
     return MLCommonsSSDLargeModel(
         name="MLCommonsSSDResNet34",
-        model=await load_dvc("models/mlcommons_ssd_resnet34_int8.onnx"),
+        #model=await load_dvc("models/mlcommons_ssd_resnet34_int8.onnx"),
+        model=await load_file("/home/jovyan/work/git/e2e-testing/ssd_resnet34_npu.onnx"),
         format=Format.ONNX,
         family="ResNet",
         version="v1.1",
