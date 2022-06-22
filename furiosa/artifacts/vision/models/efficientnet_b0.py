@@ -1,91 +1,15 @@
+
 from typing import Any, Callable, List, Optional
 
 import cv2
 import numpy as np
-import timm
 from pydantic import Field
-
 from furiosa.registry import Model
-
-from .efficientnet_b0 import EfficientNetB0Model
-from .common.base import ImageNetRwightman
 from .mlcommons.common.datasets import imagenet1k
 
 
-def call_model_generator(parent_class) -> Callable:
-    class ModelGenerator(parent_class):
-        configer = parent_class.configer
-
-        def __init__(self, pretrained: Optional[bool] = False):
-            self.check_validity(pretrained)
-            if not pretrained:
-                self.training_data = "none"
-            super(ModelGenerator, self).__init__(
-                model_func=self.model_func,
-                input_shape=self.input_shape,
-                pretrained=pretrained,
-            )
-
-        def check_validity(self, pretrained):
-            if pretrained:
-                if not self.has_pretrained:
-                    raise Exception("%s has no trained weights." % self.__class__.__name__)
-
-    return ModelGenerator
-
-
-TimmModelGenerator = call_model_generator(ImageNetRwightman)
-
-
-class EfficientNetModelGenerator(TimmModelGenerator):
-    module_name = "efficientnet"
-
-    @staticmethod
-    def configer(model_name, config_key=None):
-        if not config_key:
-            config_key = model_name
-        return TimmModelGenerator.configer(
-            module=getattr(timm.models, EfficientNetModelGenerator.module_name),
-            model_name=model_name,
-            config_key=config_key,
-        )
-
-
-class EfficientNetV2_S(EfficientNetModelGenerator):
-    """EfficientNet V2 model
-
-    https://github.com/google/automl/tree/master/efficientnetv2
-    """
-
-    model_family = "EffcientNetV2"
-    model_name = "efficientnetv2_s"
-    config_key = "tf_efficientnetv2_s"
-    (
-        model_config,
-        model_func,
-        input_shape,
-        has_pretrained,
-    ) = EfficientNetModelGenerator.configer(config_key)
-
-
-class EfficientNetV2_M(EfficientNetV2_S):
-    """EfficientNet V2 model
-
-    https://github.com/google/automl/tree/master/efficientnetv2
-    """
-
-    model_name = "efficientnetv2_m"
-    config_key = "tf_efficientnetv2_m"
-    (
-        model_config,
-        model_func,
-        input_shape,
-        has_pretrained,
-    ) = EfficientNetModelGenerator.configer(config_key)
-
-
-class MLCommonsResNet50Model(Model):
-    """MLCommons ResNet50 model"""
+class EfficientNetB0Model(Model):
+    """MLCommons EfficientNet-B0 model"""
 
     idx2str: List[str] = Field(imagenet1k.ImageNet1k_Idx2Str, repr=False)
 
@@ -130,9 +54,10 @@ class MLCommonsResNet50Model(Model):
             image, 224, 224, percent=87.5, interpolation=cv2.INTER_AREA
         )
         image = self.center_crop(image, 224, 224)
-        image = np.asarray(image, dtype=np.float32)
+        image = np.asarray(image, dtype=np.float32) / 255.0
         # https://github.com/mlcommons/inference/blob/af7f5a0b856402b9f461002cfcad116736a8f8af/vision/classification_and_detection/python/dataset.py#L178
-        image -= np.array([123.68, 116.78, 103.94], dtype=np.float32)
+        image -= np.array([0.485, 0.456, 0.405], dtype=np.float32)
+        image /= np.array([0.229, 0.224, 0.225], dtype=np.float32)
         image = image.transpose([2, 0, 1])
         return image[np.newaxis, ...]
 

@@ -47,6 +47,20 @@ async def MLCommonsResNet50(*args: Any, **kwargs: Any) -> MLCommonsResNet50Model
         **kwargs,
     )
 
+async def EfficientNetB0(*args: Any, **kwargs: Any) -> EfficientNetB0Model:
+    return EfficientNetB0Model(
+        name="EfficientNet-B0",
+        model=await load_dvc("models/efficientnet_b0_quant.dfg"),
+        format=Format.DFG,
+        family="EfficientNet",
+        version="v1.6",
+        metadata=Metadata(
+            description="EfficientNet-B0 NPU Quantization ImageNet-1K Prec@Top1 15.336 (84.664), Prec@Top5 29.976 (70.024)",
+            publication=Publication(url="https://arxiv.org/abs/2104.00298"),
+        ),
+        *args,
+        **kwargs,
+    )
 
 async def EfficientNetV2_S(*args: Any, **kwargs: Any) -> Model:
     return Model(

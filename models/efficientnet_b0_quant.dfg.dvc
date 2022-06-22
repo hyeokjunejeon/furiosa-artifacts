@@ -1,0 +1,4 @@
+outs:
+- md5: 9a55db48180fce7ac726cf47b7373bf0
+  size: 6659722
+  path: efficientnet_b0_quant.dfg

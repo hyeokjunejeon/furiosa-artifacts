@@ -1,5 +1,6 @@
 [core]
     remote = origin
+    autostage = true
 ['remote "origin"']
     url = https://furiosa-public-artifacts.s3.amazonaws.com/furiosa-artifacts
 ['remote "s3origin"']
