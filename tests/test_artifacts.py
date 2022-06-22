@@ -1,6 +1,7 @@
-import artifacts
 import pytest
 import yaml
+
+import artifacts
 
 
 def sanity_check_for_dvc_file(model, dvc_file_path: str):

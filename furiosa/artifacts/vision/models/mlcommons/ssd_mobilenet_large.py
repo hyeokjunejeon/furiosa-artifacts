@@ -1,13 +1,16 @@
+import itertools
+from math import ceil, sqrt
+from typing import Any, Dict, ForwardRef, List, Sequence, Tuple
+
 import cv2
 import numpy as np
 import numpy.typing as npt
-from math import sqrt, ceil
-import itertools
 import torch
 import torch.nn.functional as F
 from furiosa.registry import Model
-from typing import Any, Dict, ForwardRef, Sequence, List, Tuple
+
 from .common.datasets import coco
+
 
 ##Inspired by https://github.com/kuangliu/pytorch-ssd
 class Encoder(object):
