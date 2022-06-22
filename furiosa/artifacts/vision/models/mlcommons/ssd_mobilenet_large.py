@@ -281,7 +281,6 @@ class MLCommonsSSDLargeModel(Model):
             dboxes_R34_coco((1200, 1200), (3, 3, 2, 2, 2, 2))
         ).decode_batch(torch.from_numpy(locations), torch.from_numpy(classes), 0.50, 200)
 
-        #print("det_boxes", det_boxes)
         # Pick the best boxes
         # https://pytorch.org/hub/nvidia_deeplearningexamples_ssd/
         # sometimes there are many boxes with localizaition and class probability distrituion.
