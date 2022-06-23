@@ -1,23 +1,29 @@
-from typing import Any, List, Optional, Tuple, Callable, ForwardRef
+from typing import Any, Callable, ForwardRef, List, Optional, Tuple
+
 from furiosa.registry import Model
 from furiosa.runtime import session
+
 
 class LazyPipeLine:
     def __init__(self, value: object):
         if isinstance(value, Callable):
             self.compute = value
         else:
+
             def return_val():
                 return value
+
             self.compute = return_val
 
-    def bind(self, f: Callable, *args, kwargs={}) -> ForwardRef('LazyPipeline'):
+    def bind(self, f: Callable, *args, kwargs={}) -> ForwardRef("LazyPipeline"):
         def f_compute():
             computed_result = self.compute()
             if type(computed_result) == tuple:
-                return f( *computed_result, *args, **kwargs)
-            return f( computed_result, *args, **kwargs)
+                return f(*computed_result, *args, **kwargs)
+            return f(computed_result, *args, **kwargs)
+
         return LazyPipeLine(f_compute)
+
 
 class InferenceTestSessionWrapper(object):
     sess: Optional[Any] = None
