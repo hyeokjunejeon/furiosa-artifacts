@@ -6,14 +6,17 @@ import aiohttp
 import dvc.api
 from furiosa.registry import Format, Metadata, Model, Publication
 
-from furiosa.artifacts.vision.models.image_classification import \
-    EfficientNetV2_M as EfficientNetV2_MModel
-from furiosa.artifacts.vision.models.image_classification import \
-    EfficientNetV2_S as EfficientNetV2_SModel
-from furiosa.artifacts.vision.models.image_classification import \
-    MLCommonsResNet50Model
+from furiosa.artifacts.vision.models.image_classification import (
+    EfficientNetV2_M as EfficientNetV2_MModel,
+)
+from furiosa.artifacts.vision.models.image_classification import (
+    EfficientNetV2_S as EfficientNetV2_SModel,
+)
+from furiosa.artifacts.vision.models.image_classification import MLCommonsResNet50Model
 from furiosa.artifacts.vision.models.object_detection import (
-    MLCommonsSSDLargeModel, MLCommonsSSDSmallModel)
+    MLCommonsSSDLargeModel,
+    MLCommonsSSDSmallModel,
+)
 
 
 async def load_dvc(uri: str):
@@ -29,8 +32,9 @@ async def load_dvc(uri: str):
 
 # Image classification
 async def load_file(uri: str):
-    with open(uri, 'rb') as f:
+    with open(uri, "rb") as f:
         return bytes(f.read())
+
 
 async def MLCommonsResNet50(*args: Any, **kwargs: Any) -> MLCommonsResNet50Model:
     return MLCommonsResNet50Model(
@@ -97,6 +101,7 @@ async def MLCommonsSSDMobileNet(*args: Any, **kwargs: Any) -> MLCommonsSSDSmallM
         *args,
         **kwargs,
     )
+
 
 async def MLCommonsSSDResNet34(*args: Any, **kwargs: Any) -> MLCommonsSSDLargeModel:
     return MLCommonsSSDLargeModel(
