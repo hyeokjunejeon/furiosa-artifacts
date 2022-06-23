@@ -42,7 +42,7 @@ async def test_mlcommons_ssd_resnet34_perf():
     m: Model = await artifacts.MLCommonsSSDResNet34()
     test_image_path = "tests/assets/cat.jpg"
 
-    assert len(m.classes) == 81, f"Classes is 81, but {len(syncModel.classes)}"
+    assert len(m.classes) == 81, f"Classes is 81, but {len(m.classes)}"
     with InferenceTestSessionWrapper(m) as sess:
         result = sess.inference(
             test_image_path, post_config={"confidence_threshold": 0.3}
