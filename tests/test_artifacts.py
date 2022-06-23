@@ -39,7 +39,7 @@ async def test_mlcommons_ssd_resnet34():
 
 @pytest.mark.asyncio
 async def test_mlcommons_ssd_resnet34_perf():
-    m: Model = await artifacts.MLCommonsSSDResNet34()
+    m = await artifacts.MLCommonsSSDResNet34()
     test_image_path = "tests/assets/cat.jpg"
 
     assert len(m.classes) == 81, f"Classes is 81, but {len(m.classes)}"

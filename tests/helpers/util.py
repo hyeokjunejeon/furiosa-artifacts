@@ -15,7 +15,7 @@ class LazyPipeLine:
 
             self.compute = return_val
 
-    def bind(self, f: Callable, *args, kwargs={}) -> ForwardRef("LazyPipeline"):
+    def bind(self, f: Callable, *args, kwargs={}):
         def f_compute():
             computed_result = self.compute()
             if type(computed_result) == tuple:
