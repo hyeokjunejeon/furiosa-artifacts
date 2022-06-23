@@ -28,6 +28,9 @@ async def load_dvc(uri: str):
 
 
 # Image classification
+async def load_file(uri: str):
+    with open(uri, 'rb') as f:
+        return bytes(f.read())
 
 async def MLCommonsResNet50(*args: Any, **kwargs: Any) -> MLCommonsResNet50Model:
     return MLCommonsResNet50Model(
